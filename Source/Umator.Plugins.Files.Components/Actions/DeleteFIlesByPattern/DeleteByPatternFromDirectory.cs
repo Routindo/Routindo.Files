@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using NLog;
 using Umator.Contract;
+using Umator.Contract.Services;
 
 namespace Umator.Plugins.Files.Components.Actions.DeleteFIlesByPattern
 {
@@ -11,7 +11,6 @@ namespace Umator.Plugins.Files.Components.Actions.DeleteFIlesByPattern
     public class DeleteFilesByPatternFromDirectory : IAction
     {
         public const string ComponentUniqueId = "B2FF2D73-C1F7-45B2-B39D-D392837A4FA2";
-        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         [Argument(DeleteFilesByPatternFromDirectoryArgs.Directory, true)]
         public string DirectoryPath { get; set; }
@@ -23,6 +22,7 @@ namespace Umator.Plugins.Files.Components.Actions.DeleteFIlesByPattern
         public int MaximumFiles { get; set; }
 
         public string Id { get; set; }
+        public ILoggingService LoggingService { get; set; }
 
         public ActionResult Execute(ArgumentCollection arguments)
         {
@@ -30,7 +30,7 @@ namespace Umator.Plugins.Files.Components.Actions.DeleteFIlesByPattern
             {
                 if (!Directory.Exists(DirectoryPath))
                 {
-                    _logger.Error($"Directory doesn't exist [{DirectoryPath}]");
+                    LoggingService.Error($"Directory doesn't exist [{DirectoryPath}]");
                     return ActionResult.Failed();
                 }
 
@@ -40,14 +40,14 @@ namespace Umator.Plugins.Files.Components.Actions.DeleteFIlesByPattern
                 {
                     try
                     {
-                        _logger.Debug($"Deleting ({file})");
+                        LoggingService.Debug($"Deleting ({file})");
                         File.Delete(file);
-                        _logger.Info($"({file}) deleted successfully");
+                        LoggingService.Info($"({file}) deleted successfully");
                     }
                     catch (Exception exception)
                     {
-                        _logger.Error($"Deletion failed of ({file})");
-                        _logger.Error(exception);
+                        LoggingService.Error($"Deletion failed of ({file})");
+                        LoggingService.Error(exception);
                         continue;
                     }
                 }
@@ -55,7 +55,7 @@ namespace Umator.Plugins.Files.Components.Actions.DeleteFIlesByPattern
             }
             catch (Exception exception)
             {
-                _logger.Error(exception);
+                LoggingService.Error(exception);
                 return ActionResult.Failed();
             }
         }

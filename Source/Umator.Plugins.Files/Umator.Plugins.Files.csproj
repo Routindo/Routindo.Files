@@ -20,13 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog" Version="4.7.6">
-      <IncludeAssets>all</IncludeAssets>
-      <ExcludeAssets>runtime</ExcludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Umator.Plugins.Files.Components\Umator.Plugins.Files.Components.csproj" />
     <ProjectReference Include="..\Umator.Plugins.Files.UI\Umator.Plugins.Files.UI.csproj" />
   </ItemGroup>

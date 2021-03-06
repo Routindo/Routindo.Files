@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using NLog;
 using Umator.Contract;
+using Umator.Contract.Services;
 
 namespace Umator.Plugins.Files.Components.Actions.DeleteFiles
 {
@@ -11,12 +11,9 @@ namespace Umator.Plugins.Files.Components.Actions.DeleteFiles
     public class DeleteFilesAction :
         IAction
     {
-        /// <summary>
-        ///     The logger
-        /// </summary>
-        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         public string Id { get; set; }
+        public ILoggingService LoggingService { get; set; }
 
         public ActionResult Execute(ArgumentCollection arguments)
         {
@@ -40,14 +37,14 @@ namespace Umator.Plugins.Files.Components.Actions.DeleteFiles
                         throw new FileNotFoundException("File not found", filePath);
 
                     File.Delete(filePath);
-                    _logger.Info($"File ({filePath}) deleted successfully");
+                    LoggingService.Info($"File ({filePath}) deleted successfully");
                 }
 
                 return new ActionResult(true);
             }
             catch (Exception exception)
             {
-                _logger.Error(exception);
+                LoggingService.Error(exception);
                 return new ActionResult(false)
                 {
                     AttachedException = exception
@@ -59,7 +56,7 @@ namespace Umator.Plugins.Files.Components.Actions.DeleteFiles
         {
             if (!arguments.HasArgument(DeleteFilesActionExecutionArgs.FilesPaths))
             {
-                _logger.Error($"Missing mandatory argument {DeleteFilesActionExecutionArgs.FilesPaths}");
+                LoggingService.Error($"Missing mandatory argument {DeleteFilesActionExecutionArgs.FilesPaths}");
                 return false;
             }
 

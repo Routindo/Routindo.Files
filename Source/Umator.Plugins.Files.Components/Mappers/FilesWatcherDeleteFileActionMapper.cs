@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Umator.Contract;
+using Umator.Contract.Services;
 using Umator.Plugins.Files.Components.Actions.DeleteFiles;
 using Umator.Plugins.Files.Components.Watchers;
 
@@ -10,6 +11,7 @@ namespace Umator.Plugins.Files.Components.Mappers
     public class FilesWatcherDeleteFileActionMapper : IArgumentsMapper
     {
         public string Id { get; set; }
+        public ILoggingService LoggingService { get; set; }
 
         public ArgumentCollection Map(ArgumentCollection arguments)
         {

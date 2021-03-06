@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using NLog;
 using Umator.Contract;
+using Umator.Contract.Services;
 
 namespace Umator.Plugins.Files.Components.Actions.MoveFiles
 {
@@ -12,11 +12,11 @@ namespace Umator.Plugins.Files.Components.Actions.MoveFiles
     [ExecutionArgumentsClass(typeof(MoveFileActionExecutionArgs))]
     public class MoveFileAction : IAction
     {
-        public const string ComponentUniqueId = "02170633-B58A-4429-AEC1-B813DAA87BF5"; 
-        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
+        public const string ComponentUniqueId = "02170633-B58A-4429-AEC1-B813DAA87BF5";
 
 
         public string Id { get; set; }
+        public ILoggingService LoggingService { get; set; }
 
         [Argument(MoveFileActionInstanceArgs.DestinationDirectory, true)] public string DestinationDirectory { get; set; }
 
@@ -80,14 +80,14 @@ namespace Umator.Plugins.Files.Components.Actions.MoveFiles
                         throw new Exception($"({destinationPath}) File already exist");
 
                     File.Move(sourcePath, destinationPath);
-                    _logger.Info($"File ({sourcePath}) moved successfully to path ({destinationPath})");
+                    LoggingService.Info($"File ({sourcePath}) moved successfully to path ({destinationPath})");
                 }
                 
                 return ActionResult.Succeeded();
             }
             catch (Exception exception)
             {
-                _logger.Error(exception);
+                LoggingService.Error(exception);
                 return new ActionResult(false)
                 {
                     AttachedException = exception

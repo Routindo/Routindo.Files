@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using NLog;
 using Umator.Contract;
+using Umator.Contract.Services;
 
 namespace Umator.Plugins.Files.Components.Watchers
 {
@@ -12,10 +12,6 @@ namespace Umator.Plugins.Files.Components.Watchers
     public class FilesWatcher : IWatcher
     {
         public const string ComponentUniqueId = "DEF4D63F-B9B0-4525-BA94-663491DCE04A";
-        /// <summary>
-        ///     The logger
-        /// </summary>
-        private readonly ILogger _logger = LogManager.GetCurrentClassLogger();
 
         /// <summary>
         ///     Gets or sets the directory path.
@@ -45,6 +41,7 @@ namespace Umator.Plugins.Files.Components.Watchers
         public int MaximumFiles { get; set; }
 
         public string Id { get; set; }
+        public ILoggingService LoggingService { get; set; }
 
         public WatcherResult Watch()
         {
@@ -52,9 +49,9 @@ namespace Umator.Plugins.Files.Components.Watchers
             {
                 if (!Directory.Exists(DirectoryPath))
                 {
-                    _logger.Warn($"({Id}) Creating directory {DirectoryPath} because it doesn't exist.");
+                    LoggingService.Warn($"({Id}) Creating directory {DirectoryPath} because it doesn't exist.");
                     var directoryInfo = Directory.CreateDirectory(DirectoryPath);
-                    _logger.Debug($"({Id}) Directory {directoryInfo.Name} created successfully");
+                    LoggingService.Debug($"({Id}) Directory {directoryInfo.Name} created successfully");
                 }
 
                 var sortedFiles = new DirectoryInfo(DirectoryPath)
@@ -75,7 +72,7 @@ namespace Umator.Plugins.Files.Components.Watchers
             }
             catch (Exception exception)
             {
-                _logger.Error(exception);
+                LoggingService.Error(exception);
                 return WatcherResult.NotFound;
             }
         }
