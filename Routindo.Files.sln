@@ -1,0 +1,61 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{919C0220-5AD4-403A-8A71-8F58A659FEDD}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		NuGet.config = NuGet.config
+		Scripts\publish.ps1 = Scripts\publish.ps1
+		Scripts\update-libs.ps1 = Scripts\update-libs.ps1
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{9C3E6753-08D9-4925-ADF3-1002538901D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5ED9E73D-75B2-4C20-B967-A39E420DE546}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Routindo.Plugins.Files.Components", "Source\Routindo.Plugins.Files.Components\Routindo.Plugins.Files.Components.csproj", "{F9BB0BDB-DE5B-4239-86FC-40589E060C95}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Routindo.Plugins.Files", "Source\Routindo.Plugins.Files\Routindo.Plugins.Files.csproj", "{3E67C940-786A-41CC-A667-9A2B7EE792F0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Routindo.Plugins.Files.UI", "Source\Routindo.Plugins.Files.UI\Routindo.Plugins.Files.UI.csproj", "{F42D5A3F-952F-4282-A17B-98F6A6816790}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Routindo.Plugins.Files.Tests", "Tests\Routindo.Plugins.Files.Tests\Routindo.Plugins.Files.Tests.csproj", "{B996B706-F3DB-4B57-8C83-A922AFEA1219}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F9BB0BDB-DE5B-4239-86FC-40589E060C95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9BB0BDB-DE5B-4239-86FC-40589E060C95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9BB0BDB-DE5B-4239-86FC-40589E060C95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9BB0BDB-DE5B-4239-86FC-40589E060C95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E67C940-786A-41CC-A667-9A2B7EE792F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E67C940-786A-41CC-A667-9A2B7EE792F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E67C940-786A-41CC-A667-9A2B7EE792F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E67C940-786A-41CC-A667-9A2B7EE792F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F42D5A3F-952F-4282-A17B-98F6A6816790}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F42D5A3F-952F-4282-A17B-98F6A6816790}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F42D5A3F-952F-4282-A17B-98F6A6816790}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F42D5A3F-952F-4282-A17B-98F6A6816790}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B996B706-F3DB-4B57-8C83-A922AFEA1219}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B996B706-F3DB-4B57-8C83-A922AFEA1219}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B996B706-F3DB-4B57-8C83-A922AFEA1219}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B996B706-F3DB-4B57-8C83-A922AFEA1219}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F9BB0BDB-DE5B-4239-86FC-40589E060C95} = {9C3E6753-08D9-4925-ADF3-1002538901D1}
+		{3E67C940-786A-41CC-A667-9A2B7EE792F0} = {9C3E6753-08D9-4925-ADF3-1002538901D1}
+		{F42D5A3F-952F-4282-A17B-98F6A6816790} = {9C3E6753-08D9-4925-ADF3-1002538901D1}
+		{B996B706-F3DB-4B57-8C83-A922AFEA1219} = {5ED9E73D-75B2-4C20-B967-A39E420DE546}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CD14A950-D9CE-47B9-92E2-AA0073B05F80}
+	EndGlobalSection
+EndGlobal
