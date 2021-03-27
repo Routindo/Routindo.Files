@@ -1,6 +1,6 @@
 [CmdletBinding()] 
 Param(
-	$Source = "..\..\..\App\Libs\Shared",
+	$Source = "..\..\..\Libs\Shared",
     $Destination = "..\Libs\Shared"
 );
 
