@@ -91,14 +91,14 @@ namespace Routindo.Plugins.Files.UI.ViewModels
                 return;
 
             if (arguments.HasArgument(FilesWatcherArguments.Directory))
-                Directory = arguments[FilesWatcherArguments.Directory].ToString();
+                Directory = arguments.GetValue<string>(FilesWatcherArguments.Directory);
 
             if (arguments.HasArgument(FilesWatcherArguments.Pattern))
-                Pattern = arguments[FilesWatcherArguments.Pattern].ToString();
+                Pattern = arguments.GetValue<string>(FilesWatcherArguments.Pattern);
 
             if (arguments.HasArgument(FilesWatcherArguments.MaximumFiles))
             {
-                if (int.TryParse(arguments[FilesWatcherArguments.MaximumFiles].ToString(), out int maximumFiles))
+                if (int.TryParse(arguments.GetValue<string>(FilesWatcherArguments.MaximumFiles), out int maximumFiles))
                 {
                     MaximumFiles = maximumFiles;
                 }

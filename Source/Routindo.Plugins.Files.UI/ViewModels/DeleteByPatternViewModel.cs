@@ -69,18 +69,14 @@ namespace Routindo.Plugins.Files.UI.ViewModels
                 return;
 
             if (arguments.HasArgument(DeleteFilesByPatternFromDirectoryArgs.Directory))
-                Directory = arguments[DeleteFilesByPatternFromDirectoryArgs.Directory].ToString();
+                Directory = arguments.GetValue<string>(DeleteFilesByPatternFromDirectoryArgs.Directory);
 
             if (arguments.HasArgument(DeleteFilesByPatternFromDirectoryArgs.Pattern))
-                Pattern = arguments[DeleteFilesByPatternFromDirectoryArgs.Pattern].ToString();
+                Pattern = arguments.GetValue<string>(DeleteFilesByPatternFromDirectoryArgs.Pattern);
 
             if (arguments.HasArgument(DeleteFilesByPatternFromDirectoryArgs.MaximumFiles))
-            {
-                if (int.TryParse(arguments[DeleteFilesByPatternFromDirectoryArgs.MaximumFiles].ToString(), out int maximumFiles))
-                {
-                    MaximumFiles = maximumFiles;
-                }
-            }
+                MaximumFiles =arguments.GetValue<int>(DeleteFilesByPatternFromDirectoryArgs.MaximumFiles);
+            
         }
     }
 }
