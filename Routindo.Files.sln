@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Routindo.Plugins.Files.UI",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Routindo.Plugins.Files.Tests", "Tests\Routindo.Plugins.Files.Tests\Routindo.Plugins.Files.Tests.csproj", "{B996B706-F3DB-4B57-8C83-A922AFEA1219}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Routindo.Plugins.Files.Preview", "Source\Routindo.Plugins.Files.Preview\Routindo.Plugins.Files.Preview.csproj", "{7DF9C00D-2BF7-412D-BBCE-ADB46A9154BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{B996B706-F3DB-4B57-8C83-A922AFEA1219}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B996B706-F3DB-4B57-8C83-A922AFEA1219}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B996B706-F3DB-4B57-8C83-A922AFEA1219}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DF9C00D-2BF7-412D-BBCE-ADB46A9154BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DF9C00D-2BF7-412D-BBCE-ADB46A9154BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DF9C00D-2BF7-412D-BBCE-ADB46A9154BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DF9C00D-2BF7-412D-BBCE-ADB46A9154BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,6 +60,7 @@ Global
 		{3E67C940-786A-41CC-A667-9A2B7EE792F0} = {9C3E6753-08D9-4925-ADF3-1002538901D1}
 		{F42D5A3F-952F-4282-A17B-98F6A6816790} = {9C3E6753-08D9-4925-ADF3-1002538901D1}
 		{B996B706-F3DB-4B57-8C83-A922AFEA1219} = {5ED9E73D-75B2-4C20-B967-A39E420DE546}
+		{7DF9C00D-2BF7-412D-BBCE-ADB46A9154BF} = {9C3E6753-08D9-4925-ADF3-1002538901D1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CD14A950-D9CE-47B9-92E2-AA0073B05F80}
