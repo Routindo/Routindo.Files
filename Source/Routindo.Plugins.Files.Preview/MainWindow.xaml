@@ -12,14 +12,28 @@
         <preview:MainWindowViewModel/>
     </Window.DataContext>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <views:FilesWatcherConfigurator DataContext="{Binding Path=FilesWatcherConfiguratorViewModel}" />
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
-            <Button Content="Configure" Command="{Binding Path=ConfigureCommand}" />
-            <Button Content="Set Arguments" Command="{Binding Path=SetArgumentCommand}"  />
-        </StackPanel>
+        <TabControl>
+            <TabItem Header="Files Watcher">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <views:FilesWatcherConfigurator DataContext="{Binding Path=FilesWatcherConfiguratorViewModel}" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <Button Content="Configure" Command="{Binding Path=ConfigureCommand}" />
+                        <Button Content="Set Arguments" Command="{Binding Path=SetArgumentCommand}"  />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Move File">
+                <views:MoveFileActionConfigurator />
+            </TabItem>
+
+            <TabItem Header="Delete By Pattern">
+                <views:DeleteByPatternView />
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
