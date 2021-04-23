@@ -1,4 +1,7 @@
 ﻿using System.Linq;
+using System.Windows.Forms;
+using System.Windows.Input;
+using Microsoft.Xaml.Behaviors.Core;
 using Routindo.Contract;
 using Routindo.Contract.Arguments;
 using Routindo.Contract.UI;
@@ -12,11 +15,19 @@ namespace Routindo.Plugins.Files.UI.ViewModels
         private string _pattern;
         private int _maximumFiles;
 
+        public DeleteByPatternViewModel()
+        {
+            this.SelectDirectoryCommand = new ActionCommand(SelectDirectory);
+        }
+
+        public ICommand SelectDirectoryCommand { get; }
+
         public string Directory
         {
             get => _directory;
             set
             {
+                ClearPropertyErrors();
                 _directory = value;
                 ValidateNonNullOrEmptyString(Directory);
                 OnPropertyChanged();
@@ -38,6 +49,7 @@ namespace Routindo.Plugins.Files.UI.ViewModels
             get => _maximumFiles;
             set
             {
+                ClearPropertyErrors();
                 _maximumFiles = value;
                 ValidateNumber(MaximumFiles, i => i> 0);
                 OnPropertyChanged();
@@ -47,10 +59,12 @@ namespace Routindo.Plugins.Files.UI.ViewModels
         protected override void ValidateProperties()
         {
             // Directory
+            ClearPropertyErrors(nameof(Directory));
             ValidateNonNullOrEmptyString(Directory);
             OnPropertyChanged();
 
             // Maximum Files
+            ClearPropertyErrors(nameof(MaximumFiles));
             ValidateNumber(MaximumFiles, i => i > 0);
             OnPropertyChanged();
         }
@@ -77,6 +91,26 @@ namespace Routindo.Plugins.Files.UI.ViewModels
             if (arguments.HasArgument(DeleteFilesByPatternFromDirectoryArgs.MaximumFiles))
                 MaximumFiles =arguments.GetValue<int>(DeleteFilesByPatternFromDirectoryArgs.MaximumFiles);
             
+        }
+
+        private void SelectDirectory()
+        {
+            using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+            {
+                if (!string.IsNullOrWhiteSpace(Directory))
+                {
+                    dialog.SelectedPath = Directory;
+                }
+
+                dialog.Description = "Directory where to watch for new files";
+                dialog.ShowNewFolderButton = true;
+                dialog.UseDescriptionForTitle = true;
+                var dialogResult = dialog.ShowDialog();
+                if (dialogResult == DialogResult.OK)
+                {
+                    Directory = dialog.SelectedPath;
+                }
+            }
         }
     }
 }
