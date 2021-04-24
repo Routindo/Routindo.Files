@@ -11,38 +11,14 @@ namespace Routindo.Plugins.Files.Components.Watchers
     [ResultArgumentsClass(typeof(FilesWatcherResultArguments))]
     [PluginItemInfo(FilesWatcher.ComponentUniqueId, "Files Watcher",
         "Watcher directory and reports new created files with a specific pattern.")]
-    public class FilesWatcher : IWatcher
+    public class FilesWatcher : FilesSelector, IWatcher
     {
         public const string ComponentUniqueId = "DEF4D63F-B9B0-4525-BA94-663491DCE04A";
 
-        /// <summary>
-        ///     Gets or sets the directory path.
-        /// </summary>
-        /// <value>
-        ///     The directory path.
-        /// </value>
-        [Argument(FilesWatcherArguments.Directory, true)]
-        public string DirectoryPath { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the search pattern.
-        /// </summary>
-        /// <value>
-        ///     The search pattern.
-        /// </value>
-        [Argument(FilesWatcherArguments.Pattern, true)]
-        public string SearchPattern { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the maximum files.
-        /// </summary>
-        /// <value>
-        ///     The maximum files.
-        /// </value>
-        [Argument(FilesWatcherArguments.MaximumFiles, true)]
-        public int MaximumFiles { get; set; }
-
         public string Id { get; set; }
+
+        protected override ILoggingService Logger => this.LoggingService;
+
         public ILoggingService LoggingService { get; set; }
 
         public WatcherResult Watch()
@@ -56,12 +32,7 @@ namespace Routindo.Plugins.Files.Components.Watchers
                     LoggingService.Debug($"({Id}) Directory {directoryInfo.Name} created successfully");
                 }
 
-                var sortedFiles = new DirectoryInfo(DirectoryPath)
-                    .GetFiles(SearchPattern, SearchOption.TopDirectoryOnly)
-                    .OrderBy(f => f.LastWriteTime)
-                    .Select(e => e.FullName)
-                    .Take(MaximumFiles)
-                    .ToList();
+                var sortedFiles = this.Select();
 
                 if (sortedFiles.Any())
                     return new WatcherResult

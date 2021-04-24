@@ -5,6 +5,7 @@ using Microsoft.Xaml.Behaviors.Core;
 using Routindo.Contract;
 using Routindo.Contract.Arguments;
 using Routindo.Contract.UI;
+using Routindo.Plugins.Files.Components;
 using Routindo.Plugins.Files.Components.Watchers;
 
 namespace Routindo.Plugins.Files.UI.ViewModels
@@ -80,9 +81,9 @@ namespace Routindo.Plugins.Files.UI.ViewModels
         public override void Configure()
         {
             this.InstanceArguments = ArgumentCollection.New()
-                .WithArgument(FilesWatcherArguments.Directory, Directory)
-                .WithArgument(FilesWatcherArguments.Pattern, Pattern)
-                .WithArgument(FilesWatcherArguments.MaximumFiles, MaximumFiles);
+                .WithArgument(FilesSelectorArgs.Directory, Directory)
+                .WithArgument(FilesSelectorArgs.Pattern, Pattern)
+                .WithArgument(FilesSelectorArgs.MaximumFiles, MaximumFiles);
         }
 
         public override void SetArguments(ArgumentCollection arguments)
@@ -90,15 +91,15 @@ namespace Routindo.Plugins.Files.UI.ViewModels
             if(arguments == null || !arguments.Any())
                 return;
 
-            if (arguments.HasArgument(FilesWatcherArguments.Directory))
-                Directory = arguments.GetValue<string>(FilesWatcherArguments.Directory);
+            if (arguments.HasArgument(FilesSelectorArgs.Directory))
+                Directory = arguments.GetValue<string>(FilesSelectorArgs.Directory);
 
-            if (arguments.HasArgument(FilesWatcherArguments.Pattern))
-                Pattern = arguments.GetValue<string>(FilesWatcherArguments.Pattern);
+            if (arguments.HasArgument(FilesSelectorArgs.Pattern))
+                Pattern = arguments.GetValue<string>(FilesSelectorArgs.Pattern);
 
-            if (arguments.HasArgument(FilesWatcherArguments.MaximumFiles))
+            if (arguments.HasArgument(FilesSelectorArgs.MaximumFiles))
             {
-                if (int.TryParse(arguments.GetValue<string>(FilesWatcherArguments.MaximumFiles), out int maximumFiles))
+                if (int.TryParse(arguments.GetValue<string>(FilesSelectorArgs.MaximumFiles), out int maximumFiles))
                 {
                     MaximumFiles = maximumFiles;
                 }
