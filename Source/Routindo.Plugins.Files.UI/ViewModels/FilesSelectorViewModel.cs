@@ -30,12 +30,17 @@ namespace Routindo.Plugins.Files.UI.ViewModels
         private FilesSelectionSortingCriteria _sortingCriteria;
         private bool _filterByCreationTime;
         private bool _filterByEditionTime;
+        private string _exampleCreationTimeString;
+        private string _exampleEditionTimeString;
 
         public FilesSelectorViewModel()
         {
             this.SelectDirectoryCommand = new RelayCommand(SelectDirectory);
             TimePeriods = new ObservableCollection<TimePeriod>(Enum.GetValues<TimePeriod>());
             SortingCriterias = new ObservableCollection<FilesSelectionSortingCriteria>(Enum.GetValues<FilesSelectionSortingCriteria>());
+
+            RefreshExampleCreationTimeStringCommand = new RelayCommand(RefreshExampleCreationTimeString);
+            RefreshExampleEditionTimeStringCommand = new RelayCommand(RefreshExampleEditionTimeString); 
         }
 
         public string Directory
@@ -116,13 +121,71 @@ namespace Routindo.Plugins.Files.UI.ViewModels
                 var result = FilterByCreationTime &&
                              this.FilterByCreatedBefore
                              && FilterByCreatedAfter
-                             && GetTimeSpanFromFilter(this.CreatedAfterPeriod, this.CreatedAfter).TotalMilliseconds >=
+                             && GetTimeSpanFromFilter(this.CreatedAfterPeriod, this.CreatedAfter).TotalMilliseconds <=
                              GetTimeSpanFromFilter(this.CreatedBeforePeriod, this.CreatedBefore).TotalMilliseconds;
                 if (result)
                 {
                     AddPropertyError(nameof(FilterByCreationTimeHasError), "Creation Time filter has errors");
                 }
                 return result;
+            }
+        }
+
+        public ICommand RefreshExampleCreationTimeStringCommand { get; set; }
+        private void RefreshExampleCreationTimeString()
+        {
+            ExampleCreationTimeString = this.GetExampleTimeString(FilterByCreatedBefore, CreatedBeforePeriod,
+                CreatedBefore, FilterByCreatedAfter, CreatedAfterPeriod, CreatedAfter, "created");
+        }
+
+        private string GetExampleTimeString(bool before, TimePeriod timePeriodBefore, int timeValueBefore, bool after, TimePeriod timePeriodAfter, int timeValueAfter, string actionName)
+        {
+            var creationTimeBefore = DateTime.Now.AddMilliseconds(-GetTimeSpanFromFilter(timePeriodBefore, timeValueBefore).TotalMilliseconds);
+            var creationTimeAfter = DateTime.Now.AddMilliseconds(-GetTimeSpanFromFilter(timePeriodAfter, timeValueAfter).TotalMilliseconds);
+
+            if (before && after)
+            {
+                return 
+                    $"Files {actionName} between [{creationTimeAfter:G}] and [{creationTimeBefore:G}]";
+            }
+
+            if (before)
+            {
+                return 
+                    $"Files {actionName} before [{creationTimeBefore:G}]";
+            }
+
+            if (after)
+            {
+                return 
+                    $"Files {actionName} after [{creationTimeAfter:G}]";
+            }
+            return string.Empty;
+        }
+
+        public string ExampleCreationTimeString
+        {
+            get => _exampleCreationTimeString;
+            set
+            {
+                _exampleCreationTimeString = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ICommand RefreshExampleEditionTimeStringCommand { get; set; }
+        private void RefreshExampleEditionTimeString()
+        {
+            ExampleEditionTimeString = this.GetExampleTimeString(FilterByEditedBefore, EditedBeforePeriod,
+                EditedBefore, FilterByEditedAfter, EditedAfterPeriod, EditedAfter, "edited");
+        }
+        public string ExampleEditionTimeString
+        {
+            get => _exampleEditionTimeString;
+            set
+            {
+                _exampleEditionTimeString = value;
+                OnPropertyChanged();
             }
         }
 
@@ -226,7 +289,7 @@ namespace Routindo.Plugins.Files.UI.ViewModels
                 var result = FilterByEditionTime &&
                              this.FilterByEditedBefore
                              && FilterByEditedAfter
-                             && GetTimeSpanFromFilter(this.EditedAfterPeriod, this.EditedAfter).TotalMilliseconds >=
+                             && GetTimeSpanFromFilter(this.EditedAfterPeriod, this.EditedAfter).TotalMilliseconds <=
                              GetTimeSpanFromFilter(this.EditedBeforePeriod, this.EditedBefore).TotalMilliseconds;
 
                 if(result)
@@ -267,7 +330,7 @@ namespace Routindo.Plugins.Files.UI.ViewModels
             {
                 _filterByEditedBefore = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(FilterByEditionTime));
+                FilterByEditionTime = _filterByEditedBefore || FilterByEditedAfter;
                 OnPropertyChanged(nameof(FilterByEditionTimeHasError));
             }
         }
@@ -279,7 +342,7 @@ namespace Routindo.Plugins.Files.UI.ViewModels
             {
                 _filterByEditedAfter = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(FilterByEditionTime));
+                FilterByEditionTime = _filterByEditedAfter || FilterByEditedBefore;
                 OnPropertyChanged(nameof(FilterByEditionTimeHasError));
             }
         }
