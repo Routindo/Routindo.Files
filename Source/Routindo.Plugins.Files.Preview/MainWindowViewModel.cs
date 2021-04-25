@@ -2,9 +2,9 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using Microsoft.Xaml.Behaviors.Core;
 using Routindo.Contract.Arguments;
 using Routindo.Contract.UI;
+using Routindo.Plugins.Files.Components;
 using Routindo.Plugins.Files.Preview.Annotations;
 using Routindo.Plugins.Files.UI.ViewModels;
 
@@ -15,6 +15,14 @@ namespace Routindo.Plugins.Files.Preview
         public MainWindowViewModel()
         {
             FilesWatcherConfiguratorViewModel = new FilesWatcherConfiguratorViewModel();
+            FilesWatcherConfiguratorViewModel.SetArguments(ArgumentCollection.New()
+                .WithArgument(FilesSelectorArgs.CreatedAfter, TimeSpan.FromHours(1).TotalMilliseconds)
+                .WithArgument(FilesSelectorArgs.CreatedBefore, TimeSpan.FromMinutes(1).TotalMilliseconds)
+                .WithArgument(FilesSelectorArgs.EditedAfter, TimeSpan.FromMinutes(45).TotalMilliseconds)
+                .WithArgument(FilesSelectorArgs.EditedBefore, TimeSpan.FromMinutes(15).TotalMilliseconds)
+                .WithArgument(FilesSelectorArgs.SortingCriteria, FilesSelectionSortingCriteria.CreationTimeDescending)
+                .WithArgument(FilesSelectorArgs.Pattern, "*.txt")
+            );
             ConfigureCommand = new RelayCommand(() => FilesWatcherConfiguratorViewModel.Configure(),
                 () => this.FilesWatcherConfiguratorViewModel.CanConfigure());
             SetArgumentCommand = new RelayCommand(() =>
@@ -28,7 +36,7 @@ namespace Routindo.Plugins.Files.Preview
         //}
 
         public event PropertyChangedEventHandler PropertyChanged;
-        public FilesWatcherConfiguratorViewModel FilesWatcherConfiguratorViewModel { get; set; }
+        public FilesSelectorViewModel FilesWatcherConfiguratorViewModel { get; set; }
 
 
 

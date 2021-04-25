@@ -1,7 +1,5 @@
 ﻿using System.Windows.Forms;
 using System.Windows.Input;
-using Microsoft.Xaml.Behaviors.Core;
-using Routindo.Contract;
 using Routindo.Contract.Arguments;
 using Routindo.Contract.UI;
 using Routindo.Plugins.Files.Components.Actions.MoveFiles;
@@ -19,9 +17,9 @@ namespace Routindo.Plugins.Files.UI.ViewModels
 
         public MoveFileActionConfiguratorViewModel()
         {
-            SelectDestinationDirectoryCommand = new ActionCommand(SelectDestinationDirectory);
-            SelectSourceFilePathCommand = new ActionCommand(SelectSourceFilePath);
-            ResetDestinationFileNameCommand = new ActionCommand(ResetDestinationFileName);
+            SelectDestinationDirectoryCommand = new RelayCommand(SelectDestinationDirectory);
+            SelectSourceFilePathCommand = new RelayCommand(SelectSourceFilePath);
+            ResetDestinationFileNameCommand = new RelayCommand(ResetDestinationFileName);
         }
 
         private void ResetDestinationFileName()

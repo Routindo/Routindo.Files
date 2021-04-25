@@ -4,10 +4,10 @@ namespace Routindo.Plugins.Files.UI.Views
 {
     /// <summary>
     /// Interaction logic for FilesWatcherConfigurator.xaml
-    /// </summary>
-    public partial class FilesWatcherConfigurator : UserControl
+    /// </summary> 
+    public partial class FilesSelectorConfigurator : UserControl
     {
-        public FilesWatcherConfigurator()
+        public FilesSelectorConfigurator()
         {
             InitializeComponent();
         }

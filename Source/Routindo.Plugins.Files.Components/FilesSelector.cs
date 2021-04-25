@@ -20,9 +20,10 @@ namespace Routindo.Plugins.Files.Components
 
         [Argument(FilesSelectorArgs.Directory, true)] public string DirectoryPath { get; set; }
 
-        [Argument(FilesSelectorArgs.Pattern)] public string SearchPattern { get; set; }
+        [Argument(FilesSelectorArgs.Pattern)] public string SearchPattern { get; set; } = string.Empty;
 
-        [Argument(FilesSelectorArgs.MaximumFiles, true)] public int MaximumFiles { get; set; }
+        [Argument(FilesSelectorArgs.MaximumFiles, true)]
+        public int MaximumFiles { get; set; } = 1;
 
         [Argument(FilesSelectorArgs.CreatedBefore)] public ulong? CreatedBefore { get; set; }
 
@@ -36,17 +37,15 @@ namespace Routindo.Plugins.Files.Components
         {
             try
             {
+                // Logger.Trace($"Selecting files with Pattern ({SearchPattern}) from directory ({DirectoryPath})");
                 var selectedFiles = new DirectoryInfo(DirectoryPath)
-                    .GetFiles(SearchPattern, SearchOption.TopDirectoryOnly)
-                    .ToList();
-
+                    .GetFiles(SearchPattern, SearchOption.TopDirectoryOnly).ToList();
+                    
                 selectedFiles = GetFilesFilteredByTime(selectedFiles);
-
-                selectedFiles = GetSortedFiles(selectedFiles);
-
-                return selectedFiles
+                return GetSortedFiles(selectedFiles)
                     .Take(MaximumFiles)
                     .Select(e => e.FullName).ToList();
+             
             }
             catch (Exception exception)
             {
@@ -90,27 +89,30 @@ namespace Routindo.Plugins.Files.Components
 
         private List<FileInfo> GetSortedFiles(List<FileInfo> selectedFiles)
         {
-            if (SortingCriteria != FilesSelectionSortingCriteria.CreationTimeAscending)
+            if (SortingCriteria == FilesSelectionSortingCriteria.CreationTimeAscending)
             {
-                selectedFiles = selectedFiles
+                return selectedFiles
                     .OrderBy(f => f.CreationTime)
                     .ToList();
             }
-            else if (SortingCriteria != FilesSelectionSortingCriteria.EditionTimeAscending)
+
+            if (SortingCriteria == FilesSelectionSortingCriteria.EditionTimeAscending)
             {
-                selectedFiles = selectedFiles
+                return selectedFiles
                     .OrderBy(f => f.LastWriteTime)
                     .ToList();
             }
-            else if (SortingCriteria != FilesSelectionSortingCriteria.CreationTimeDescending)
+
+            if (SortingCriteria == FilesSelectionSortingCriteria.CreationTimeDescending)
             {
-                selectedFiles = selectedFiles
+                return selectedFiles
                     .OrderByDescending(f => f.CreationTime)
                     .ToList();
             }
-            else if (SortingCriteria != FilesSelectionSortingCriteria.EditionTimeDescending)
+
+            if (SortingCriteria == FilesSelectionSortingCriteria.EditionTimeDescending)
             {
-                selectedFiles = selectedFiles
+                return selectedFiles
                     .OrderByDescending(f => f.LastWriteTime)
                     .ToList();
             }

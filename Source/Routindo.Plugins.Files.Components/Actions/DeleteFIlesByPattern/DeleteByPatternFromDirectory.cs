@@ -11,20 +11,14 @@ namespace Routindo.Plugins.Files.Components.Actions.DeleteFIlesByPattern
 {
     [PluginItemInfo(ComponentUniqueId, nameof(DeleteFilesByPatternFromDirectory),
         "Delete files using a specific pattern from a specific directory")]
-    public class DeleteFilesByPatternFromDirectory : IAction
+    public class DeleteFilesByPatternFromDirectory : FilesSelector, IAction
     {
         public const string ComponentUniqueId = "B2FF2D73-C1F7-45B2-B39D-D392837A4FA2";
 
-        [Argument(DeleteFilesByPatternFromDirectoryArgs.Directory, true)]
-        public string DirectoryPath { get; set; }
-
-        [Argument(DeleteFilesByPatternFromDirectoryArgs.Pattern, true)]
-        public string Pattern { get; set; }
-
-        [Argument(DeleteFilesByPatternFromDirectoryArgs.MaximumFiles, true)]
-        public int MaximumFiles { get; set; }
+        protected override ILoggingService Logger => this.LoggingService;
 
         public string Id { get; set; }
+
         public ILoggingService LoggingService { get; set; }
 
         public ActionResult Execute(ArgumentCollection arguments)
@@ -37,7 +31,7 @@ namespace Routindo.Plugins.Files.Components.Actions.DeleteFIlesByPattern
                     return ActionResult.Failed();
                 }
 
-                var files = Directory.GetFiles(DirectoryPath, Pattern, SearchOption.TopDirectoryOnly).Take(this.MaximumFiles > 0 ? int.MaxValue : this.MaximumFiles).ToList();
+                var files = this.Select();
 
                 foreach (var file in files)
                 {
