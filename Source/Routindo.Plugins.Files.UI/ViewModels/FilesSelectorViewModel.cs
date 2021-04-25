@@ -97,15 +97,34 @@ namespace Routindo.Plugins.Files.UI.ViewModels
                 _filterByCreationTime = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(FilterByCreationTimeHasError));
+                if (!value)
+                {
+                    if (FilterByCreatedAfter)
+                        FilterByCreatedAfter = false;
+
+                    if (FilterByCreatedBefore)
+                        FilterByCreatedBefore = false;
+                }
             }
         }
 
-        public bool FilterByCreationTimeHasError =>
-            FilterByCreationTime &&
-            this.FilterByCreatedBefore
-            && FilterByCreatedAfter
-            && GetTimeSpanFromFilter(this.CreatedAfterPeriod, this.CreatedAfter).TotalMilliseconds <=
-            GetTimeSpanFromFilter(this.CreatedBeforePeriod, this.CreatedBefore).TotalMilliseconds;
+        public bool FilterByCreationTimeHasError
+        {
+            get
+            {
+                ClearPropertyErrors();
+                var result = FilterByCreationTime &&
+                             this.FilterByCreatedBefore
+                             && FilterByCreatedAfter
+                             && GetTimeSpanFromFilter(this.CreatedAfterPeriod, this.CreatedAfter).TotalMilliseconds >=
+                             GetTimeSpanFromFilter(this.CreatedBeforePeriod, this.CreatedBefore).TotalMilliseconds;
+                if (result)
+                {
+                    AddPropertyError(nameof(FilterByCreationTimeHasError), "Creation Time filter has errors");
+                }
+                return result;
+            }
+        }
 
         public bool FilterByCreatedBefore
         {
@@ -187,15 +206,35 @@ namespace Routindo.Plugins.Files.UI.ViewModels
                 _filterByEditionTime = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(FilterByEditionTimeHasError));
+
+                if (!value)
+                {
+                    if (FilterByEditedAfter)
+                        FilterByEditedAfter = false;
+
+                    if (FilterByEditedBefore)
+                        FilterByEditedBefore = false;
+                }
             }
         }
 
-        public bool FilterByEditionTimeHasError =>
-            FilterByEditionTime &&
-            this.FilterByEditedBefore
-            && FilterByEditedAfter
-            && GetTimeSpanFromFilter(this.EditedAfterPeriod, this.EditedAfter).TotalMilliseconds <=
-            GetTimeSpanFromFilter(this.EditedBeforePeriod, this.EditedBefore).TotalMilliseconds;
+        public bool FilterByEditionTimeHasError
+        {
+            get
+            {
+                ClearPropertyErrors();
+                var result = FilterByEditionTime &&
+                             this.FilterByEditedBefore
+                             && FilterByEditedAfter
+                             && GetTimeSpanFromFilter(this.EditedAfterPeriod, this.EditedAfter).TotalMilliseconds >=
+                             GetTimeSpanFromFilter(this.EditedBeforePeriod, this.EditedBefore).TotalMilliseconds;
+
+                if(result)
+                    AddPropertyError(nameof(FilterByEditionTimeHasError), "Edition Time filter has errors");
+
+                return result;
+            }
+        }
 
         public TimePeriod EditedBeforePeriod
         {
@@ -373,14 +412,17 @@ namespace Routindo.Plugins.Files.UI.ViewModels
                 .WithArgument(FilesSelectorArgs.Directory, Directory)
                 .WithArgument(FilesSelectorArgs.Pattern, Pattern)
                 .WithArgument(FilesSelectorArgs.MaximumFiles, MaximumFiles)
-                .WithArgument(FilesSelectorArgs.SortingCriteria, SortingCriteria)
-                ;
+                .WithArgument(FilesSelectorArgs.SortingCriteria, SortingCriteria);
 
             if (FilterByCreatedBefore)
             {
                 TimeSpan createdBeforeTimeSpan = GetTimeSpanFromFilter(CreatedBeforePeriod, CreatedBefore);
                 InstanceArguments = InstanceArguments.WithArgument(FilesSelectorArgs.CreatedBefore,
                     Convert.ToUInt64(createdBeforeTimeSpan.TotalMilliseconds));
+            }
+            else
+            {
+                InstanceArguments = InstanceArguments.WithArgument(FilesSelectorArgs.CreatedBefore, null);
             }
 
             if (FilterByCreatedAfter)
@@ -389,6 +431,10 @@ namespace Routindo.Plugins.Files.UI.ViewModels
                 InstanceArguments = InstanceArguments.WithArgument(FilesSelectorArgs.CreatedAfter,
                     Convert.ToUInt64(createdAfterTimeSpan.TotalMilliseconds));
             }
+            else
+            {
+                InstanceArguments = InstanceArguments.WithArgument(FilesSelectorArgs.CreatedAfter,null);
+            }
 
             if (FilterByEditedBefore)
             {
@@ -396,12 +442,20 @@ namespace Routindo.Plugins.Files.UI.ViewModels
                 InstanceArguments = InstanceArguments.WithArgument(FilesSelectorArgs.EditedBefore,
                     Convert.ToUInt64(editedBeforeTimeSpan.TotalMilliseconds));
             }
+            else
+            {
+                InstanceArguments = InstanceArguments.WithArgument(FilesSelectorArgs.EditedBefore, null);
+            }
 
             if (FilterByEditedAfter)
             {
                 TimeSpan editedAfterTimeSpan= GetTimeSpanFromFilter(EditedAfterPeriod, EditedAfter);
                 InstanceArguments = InstanceArguments.WithArgument(FilesSelectorArgs.EditedAfter,
                     Convert.ToUInt64(editedAfterTimeSpan.TotalMilliseconds));
+            }
+            else
+            {
+                InstanceArguments = InstanceArguments.WithArgument(FilesSelectorArgs.EditedAfter, null);
             }
         }
 

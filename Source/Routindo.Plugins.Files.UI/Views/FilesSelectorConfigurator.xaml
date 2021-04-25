@@ -75,157 +75,174 @@
 
             <TabItem Header="Advanced">
                 <StackPanel Grid.IsSharedSizeScope="True">
-                    <GroupBox Margin="5">
-                        <GroupBox.Header>
-                            <CheckBox x:Name="FilterByCreationTimeCheckBox" 
+
+                    <StackPanel>
+                        <Grid Margin="10 5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"  SharedSizeGroup="Label"/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Sort by" />
+                            <ComboBox Grid.Column="1" Width="300" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
+                                      ItemsSource="{Binding SortingCriterias}"
+                                      SelectedItem="{Binding Path=SortingCriteria, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}" />
+                            <TextBlock Grid.Column="3" Text="Returns list of files sorted" />
+                        </Grid>
+                    </StackPanel>
+
+                    <GroupBox Header="Filter" Margin="10" Padding="5">
+                        <TabControl TabStripPlacement="Left">
+
+                            <TabItem Header="Creation Time">
+                                <StackPanel Grid.IsSharedSizeScope="True" VerticalAlignment="Center">
+                                    <GroupBox Margin="5">
+                                        <GroupBox.Header>
+                                            <CheckBox x:Name="FilterByCreationTimeCheckBox" 
                                       Content="Filter by Creation time"
                                       IsChecked="{Binding Path=FilterByCreationTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       />
-                        </GroupBox.Header>
-                        <StackPanel IsEnabled="{Binding  ElementName=FilterByCreationTimeCheckBox, Path=IsChecked, Mode=OneWay}">
-                            <Grid Margin="10 5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"  SharedSizeGroup="Label"/>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <CheckBox IsChecked="{Binding Path=FilterByCreatedAfter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        </GroupBox.Header>
+                                        <StackPanel IsEnabled="{Binding  ElementName=FilterByCreationTimeCheckBox, Path=IsChecked, Mode=OneWay}">
+                                            <Grid Margin="10 5">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"  SharedSizeGroup="Label"/>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <CheckBox IsChecked="{Binding Path=FilterByCreatedAfter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   Content="Created After" />
-                                <!--<Label Content="Created Before" />-->
-                                <controls:IntegerBox Grid.Column="1" Width="100" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
+                                                <!--<Label Content="Created Before" />-->
+                                                <controls:IntegerBox Grid.Column="1" Width="100" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
                                              Minimum="1" AllowManualEdit="True" Increment="1"
                                              Value="{Binding Path=CreatedAfter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"
                                              IsEnabled="{Binding Path=FilterByCreatedAfter, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                              />
-                                <ComboBox Grid.Column="2" Width="300" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
+                                                <ComboBox Grid.Column="2" Width="150" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
                                   ItemsSource="{Binding TimePeriods}"
                                   SelectedItem="{Binding Path=CreatedAfterPeriod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"
                                   IsEnabled="{Binding Path=FilterByCreatedAfter, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                   />
-                                <TextBlock Grid.Column="3" Text="Only files created later than TIME ago"
+                                                <TextBlock Grid.Column="3" Text="Only files created later than TIME ago"
                                    IsEnabled="{Binding Path=FilterByCreatedAfter, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                    />
-                            </Grid>
-                            
-                            <Grid Margin="10 5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"  SharedSizeGroup="Label"/>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <CheckBox IsChecked="{Binding Path=FilterByCreatedBefore, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            </Grid>
+
+                                            <Grid Margin="10 5">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"  SharedSizeGroup="Label"/>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <CheckBox IsChecked="{Binding Path=FilterByCreatedBefore, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   Content="Created Before" />
-                                <!--<Label Content="Created Before" />-->
-                                <controls:IntegerBox Grid.Column="1" Width="100" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
+                                                <!--<Label Content="Created Before" />-->
+                                                <controls:IntegerBox Grid.Column="1" Width="100" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
                                              Minimum="1" AllowManualEdit="True" Increment="1"
                                              Value="{Binding Path=CreatedBefore, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"
                                              IsEnabled="{Binding Path=FilterByCreatedBefore, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                              />
-                                <ComboBox Grid.Column="2" Width="300" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
+                                                <ComboBox Grid.Column="2" Width="150" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
                                   ItemsSource="{Binding TimePeriods}"
                                   SelectedItem="{Binding Path=CreatedBeforePeriod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"
                                   IsEnabled="{Binding Path=FilterByCreatedBefore, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                   />
-                                <TextBlock Grid.Column="3" Text="Only files created before TIME ago"
+                                                <TextBlock Grid.Column="3" Text="Only files created before TIME ago"
                                    IsEnabled="{Binding Path=FilterByCreatedBefore, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                    />
-                            </Grid>
+                                            </Grid>
 
-                            <Border BorderThickness="1" BorderBrush="DarkRed" Background="Pink"
+                                            <Border BorderThickness="1" BorderBrush="DarkRed" Background="Pink"
                                     Visibility="{Binding Path=FilterByCreationTimeHasError, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}"
                                     >
-                                <TextBlock Foreground="DarkRed"
+                                                <TextBlock Foreground="DarkRed"
                                     Text="Error: 'Created Before' time must be newer than 'Created After' Time"
                                     />
-                            </Border>
-                        </StackPanel>
+                                            </Border>
+                                        </StackPanel>
 
-                    </GroupBox>
+                                    </GroupBox>
+                                </StackPanel>
+                            </TabItem>
 
-                    <GroupBox Margin="5">
-                        <GroupBox.Header>
-                            <CheckBox x:Name="FilterByEditionTimeCheckBox" 
+                            <TabItem Header="Edition Time">
+                                <StackPanel Grid.IsSharedSizeScope="True" VerticalAlignment="Center">
+                                    <GroupBox Margin="5">
+                                        <GroupBox.Header>
+                                            <CheckBox x:Name="FilterByEditionTimeCheckBox" 
                                       Content="Filter by Edition time"
                                       IsChecked="{Binding Path=FilterByEditionTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             />
-                        </GroupBox.Header>
-                        <StackPanel  IsEnabled="{Binding  ElementName=FilterByEditionTimeCheckBox, Path=IsChecked, Mode=OneWay}"
+                                        </GroupBox.Header>
+                                        <StackPanel  IsEnabled="{Binding  ElementName=FilterByEditionTimeCheckBox, Path=IsChecked, Mode=OneWay}"
                         >
-                            <Grid Margin="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"  SharedSizeGroup="Label"/>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <CheckBox IsChecked="{Binding Path=FilterByEditedAfter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            <Grid Margin="10 5">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"  SharedSizeGroup="Label"/>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <CheckBox IsChecked="{Binding Path=FilterByEditedAfter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   Content="Edited After" />
-                                <!--<Label Content="Edited Before" />-->
-                                <controls:IntegerBox Grid.Column="1" Width="100" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
+                                                <!--<Label Content="Edited Before" />-->
+                                                <controls:IntegerBox Grid.Column="1" Width="100" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
                                              Minimum="1" AllowManualEdit="True" Increment="1"
                                              Value="{Binding Path=EditedAfter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"
                                              IsEnabled="{Binding Path=FilterByEditedAfter, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                              />
-                                <ComboBox Grid.Column="2" Width="300" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
+                                                <ComboBox Grid.Column="2" Width="150" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
                                   ItemsSource="{Binding TimePeriods}"
                                   SelectedItem="{Binding Path=EditedAfterPeriod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"
                                   IsEnabled="{Binding Path=FilterByEditedAfter, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                   />
-                                <TextBlock Grid.Column="3" Text="Only files Edited later than TIME ago"
+                                                <TextBlock Grid.Column="3" Text="Only files Edited later than TIME ago"
                                    IsEnabled="{Binding Path=FilterByEditedAfter, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                    />
-                            </Grid>
+                                            </Grid>
 
-                            <Grid Margin="10 5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"  SharedSizeGroup="Label"/>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <CheckBox IsChecked="{Binding Path=FilterByEditedBefore, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            <Grid Margin="10 5">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"  SharedSizeGroup="Label"/>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <CheckBox IsChecked="{Binding Path=FilterByEditedBefore, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                   Content="Edited Before" />
-                                <!--<Label Content="Edited Before" />-->
-                                <controls:IntegerBox Grid.Column="1" Width="100" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
+                                                <!--<Label Content="Edited Before" />-->
+                                                <controls:IntegerBox Grid.Column="1" Width="100" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
                                              Minimum="1" AllowManualEdit="True" Increment="1"
                                              Value="{Binding Path=EditedBefore, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"
                                              IsEnabled="{Binding Path=FilterByEditedBefore, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                              />
-                                <ComboBox Grid.Column="2" Width="300" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
+                                                <ComboBox Grid.Column="2" Width="150" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
                                   ItemsSource="{Binding TimePeriods}"
                                   SelectedItem="{Binding Path=EditedBeforePeriod, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}"
                                   IsEnabled="{Binding Path=FilterByEditedBefore, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                   />
-                                <TextBlock Grid.Column="3" Text="Only files Edited before TIME ago"
+                                                <TextBlock Grid.Column="3" Text="Only files Edited before TIME ago"
                                    IsEnabled="{Binding Path=FilterByEditedBefore, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                                    />
-                            </Grid>
+                                            </Grid>
 
-                            <Border BorderThickness="1" BorderBrush="DarkRed" Background="Pink"
+                                            <Border BorderThickness="1" BorderBrush="DarkRed" Background="Pink"
                                     Visibility="{Binding Path=FilterByEditionTimeHasError, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}"
                             >
-                                <TextBlock Foreground="DarkRed"
+                                                <TextBlock Foreground="DarkRed"
                                            Text="Error: 'Created Before' time must be newer than 'Created After' Time"
                                 />
-                            </Border>
-                        </StackPanel>
-                    </GroupBox>
+                                            </Border>
+                                        </StackPanel>
+                                    </GroupBox>
+                                </StackPanel>
+                            </TabItem>
 
-                    <Grid Margin="10 5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"  SharedSizeGroup="Label"/>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Label Content="Sort by" />
-                        <ComboBox Grid.Column="1" Width="300" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
-                                             ItemsSource="{Binding SortingCriterias}"
-                                             SelectedItem="{Binding Path=SortingCriteria, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}" />
-                        <TextBlock Grid.Column="3" Text="Returns list of files sorted" />
-                    </Grid>
+                        </TabControl>
+                    </GroupBox>
                 </StackPanel>
             </TabItem>
         </TabControl>

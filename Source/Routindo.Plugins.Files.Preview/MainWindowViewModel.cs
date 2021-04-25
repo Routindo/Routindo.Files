@@ -26,7 +26,7 @@ namespace Routindo.Plugins.Files.Preview
             ConfigureCommand = new RelayCommand(() => FilesWatcherConfiguratorViewModel.Configure(),
                 () => this.FilesWatcherConfiguratorViewModel.CanConfigure());
             SetArgumentCommand = new RelayCommand(() =>
-                this.FilesWatcherConfiguratorViewModel.SetArguments(ArgumentCollection.New()));
+                this.FilesWatcherConfiguratorViewModel.SetArguments(FilesWatcherConfiguratorViewModel.InstanceArguments));
             // FilesWatcherConfiguratorViewModel.PropertyChanged += FilesWatcherConfiguratorViewModelOnPropertyChanged;
         }
 
