@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Routindo.Plugins.Files.UI.Views.MoveFileActionConfigurator"
+﻿<UserControl x:Class="Routindo.Plugins.Files.UI.Views.RenameFileActionView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:Routindo.Plugins.Files.UI.Views"
              xmlns:viewModels="clr-namespace:Routindo.Plugins.Files.UI.ViewModels"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" d:Background="white">
+             d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.DataContext>
-        <viewModels:MoveFileActionConfiguratorViewModel />
+        <viewModels:RenameFileActionViewModel />
     </UserControl.DataContext>
     <UserControl.Resources>
         <ResourceDictionary>
@@ -23,9 +23,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Text="File Mover Configuration" Margin="10 10 10 20" FontWeight="Bold" FontSize="20"/>
+        <TextBlock Text="Rename File" Margin="10 10 10 20" FontWeight="Bold" FontSize="20"/>
         <StackPanel Grid.Row="1" Grid.IsSharedSizeScope="True">
-            
             <Grid Margin="10 5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"  SharedSizeGroup="Label"/>
@@ -40,32 +39,15 @@
                 <TextBlock Grid.Column="3" Text="The path to the file to move" />
             </Grid>
 
-            <Grid Margin="10 5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"  SharedSizeGroup="Label"/>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Label Content="Directory" />
-                <TextBox Grid.Column="1" Width="300" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
-                             Text="{Binding Path=DestinationDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}" />
-                <Button Grid.Column="2" Content="Select" Command="{Binding Path=SelectDestinationDirectoryCommand}" />
-                <TextBlock Grid.Column="3" Text="Directory where to move the file" />
-            </Grid>
-
             <GroupBox Header="Destination File Name" Margin="10">
                 <StackPanel Orientation="Vertical" Margin="5 10">
                     <StackPanel Orientation="Horizontal">
-                        <RadioButton x:Name="NoneChangeName" GroupName="MoveNewName" Content="None"
-                                     IsChecked="{Binding Path=IsCheckedNoneDestinationFileName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                                     Command="{Binding Path=ResetDestinationFileNameCommand}" />
-                        
+
                         <RadioButton x:Name="NewFixedName" GroupName="MoveNewName" Content="Fixed New Name"
-                                     IsChecked="{Binding Path=IsCheckedNewDestinationFileName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                     IsChecked="{Binding Path=IsCheckedNewDestinationFileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      />
                         <RadioButton x:Name="NewPrefixExtension" GroupName="MoveNewName" 
-                                     IsChecked="{Binding Path=IsCheckedPrefixAndExtensionDestinationFileName, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
+                                     IsChecked="{Binding Path=IsCheckedPrefixAndExtensionDestinationFileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      Content="Prefix and Extension" />
                     </StackPanel>
                     <Grid Margin="10 5" IsEnabled="{Binding ElementName=NewFixedName, Path=IsChecked}">
@@ -76,8 +58,8 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Label Content="File Name" />
-                        <TextBox Grid.Column="1" Width="300"
-                                 Text="{Binding Path=DestinationFileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox Grid.Column="1" Width="300" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
+                                 Text="{Binding Path=DestinationFileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}" />
                         <TextBlock Grid.Column="3" Text="Rename file after moving to new name" />
                     </Grid>
 
@@ -89,8 +71,8 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Label Content="Destination Prefix" />
-                        <TextBox Grid.Column="1" Width="300"
-                                 Text="{Binding Path=DestinationPrefix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox Grid.Column="1" Width="300" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
+                                 Text="{Binding Path=DestinationPrefix, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}" />
                         <TextBlock Grid.Column="3" Text="Append a prefix to the file name" />
                     </Grid>
 
@@ -102,8 +84,8 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Label Content="Destination Extension" />
-                        <TextBox Grid.Column="1" Width="100"
-                                 Text="{Binding Path=DestinationExtension, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox Grid.Column="1" Width="100" Validation.ErrorTemplate="{StaticResource ErrorControlTemplate}"
+                                 Text="{Binding Path=DestinationExtension, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True}" />
                         <TextBlock Grid.Column="3" Text="The new extension for the moved file ex: .jpg, .txt" />
                     </Grid>
                 </StackPanel>

@@ -36,6 +36,9 @@
             <TabItem Header="Copy">
                 <views:CopyFilesActionView />
             </TabItem>
+            <TabItem Header="Rename">
+                <views:RenameFileActionView />
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>
