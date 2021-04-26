@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Routindo.Contract;
 using Routindo.Contract.Actions;
 using Routindo.Contract.Arguments;
 using Routindo.Contract.Attributes;
 using Routindo.Contract.Exceptions;
 using Routindo.Contract.Services;
 
-namespace Routindo.Plugins.Files.Components.Actions.DeleteFiles
+namespace Routindo.Plugins.Files.Components.Actions.Delete
 {
     [PluginItemInfo("6103E4DD-4D75-4C86-AD61-2F02E802D15E", "Files Deleter", "Delete specific files")]
     [ExecutionArgumentsClass(typeof(DeleteFilesActionExecutionArgs))]

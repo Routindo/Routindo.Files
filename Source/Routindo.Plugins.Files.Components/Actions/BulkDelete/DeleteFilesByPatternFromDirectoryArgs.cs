@@ -1,4 +1,4 @@
-﻿namespace Routindo.Plugins.Files.Components.Actions.DeleteFIlesByPattern
+﻿namespace Routindo.Plugins.Files.Components.Actions.BulkDelete
 {
     public static class DeleteFilesByPatternFromDirectoryArgs
     {

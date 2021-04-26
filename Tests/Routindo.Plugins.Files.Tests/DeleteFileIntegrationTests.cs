@@ -4,7 +4,7 @@ using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Routindo.Contract;
 using Routindo.Contract.Arguments;
-using Routindo.Plugins.Files.Components.Actions.DeleteFiles;
+using Routindo.Plugins.Files.Components.Actions.Delete;
 
 namespace Routindo.Plugins.Files.Tests
 {

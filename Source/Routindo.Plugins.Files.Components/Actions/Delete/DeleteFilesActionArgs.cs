@@ -1,4 +1,4 @@
-﻿namespace Routindo.Plugins.Files.Components.Actions.DeleteFiles
+﻿namespace Routindo.Plugins.Files.Components.Actions.Delete
 {
     public static class DeleteFilesActionExecutionArgs
     {

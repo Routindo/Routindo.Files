@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using Routindo.Contract.Arguments;
 using Routindo.Contract.UI;
-using Routindo.Plugins.Files.Components.Actions.MoveFiles;
+using Routindo.Plugins.Files.Components.Actions.Move;
 using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace Routindo.Plugins.Files.UI.ViewModels
@@ -52,7 +52,7 @@ namespace Routindo.Plugins.Files.UI.ViewModels
                     dialog.SelectedPath = DestinationDirectory;
                 }
 
-                dialog.Description = "Directory where to watch for new files";
+                dialog.Description = "Directory where to move the files";
                 dialog.ShowNewFolderButton = true;
                 dialog.UseDescriptionForTitle = true;
                 var dialogResult = dialog.ShowDialog();

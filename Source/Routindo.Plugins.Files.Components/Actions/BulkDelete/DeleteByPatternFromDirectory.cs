@@ -1,13 +1,11 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using Routindo.Contract;
 using Routindo.Contract.Actions;
 using Routindo.Contract.Arguments;
 using Routindo.Contract.Attributes;
 using Routindo.Contract.Services;
 
-namespace Routindo.Plugins.Files.Components.Actions.DeleteFIlesByPattern
+namespace Routindo.Plugins.Files.Components.Actions.BulkDelete
 {
     [PluginItemInfo(ComponentUniqueId, nameof(DeleteFilesByPatternFromDirectory),
         "Delete files using a specific pattern from a specific directory")]

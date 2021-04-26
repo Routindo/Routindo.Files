@@ -2,36 +2,26 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Routindo.Contract;
 using Routindo.Contract.Actions;
 using Routindo.Contract.Arguments;
 using Routindo.Contract.Attributes;
 using Routindo.Contract.Exceptions;
 using Routindo.Contract.Services;
+using Routindo.Plugins.Files.Components.Actions.Move;
 
-namespace Routindo.Plugins.Files.Components.Actions.MoveFiles
+namespace Routindo.Plugins.Files.Components.Actions.Copy
 {
-    [PluginItemInfo(ComponentUniqueId, "File Mover",
-        "Move a specific file to a specific directory")]
-    [ExecutionArgumentsClass(typeof(MoveFileActionExecutionArgs))]
-    public class MoveFileAction : IAction
+    [PluginItemInfo(ComponentUniqueId, "File Copier",
+        "Copy a specific file to a specific directory")]
+    [ExecutionArgumentsClass(typeof(CopyFilesActionExecutionArgs))]
+    public class CopyFilesAction: IAction
     {
-        public const string ComponentUniqueId = "02170633-B58A-4429-AEC1-B813DAA87BF5";
-
-
+        public const string ComponentUniqueId = "22A3DE70-0FF5-480A-9741-BF88215D0179";
         public string Id { get; set; }
         public ILoggingService LoggingService { get; set; }
 
-        [Argument(MoveFileActionInstanceArgs.DestinationDirectory, true)] public string DestinationDirectory { get; set; }
-
-        [Argument(MoveFileActionInstanceArgs.DestinationExtension, false)] public string DestinationExtension { get; set; }
-
-        [Argument(MoveFileActionInstanceArgs.DestinationPrefix, false)] public string DestinationPrefix { get; set; }
-
-        [Argument(MoveFileActionInstanceArgs.DestinationFileName, false)] public string DestinationFileName { get; set; } 
-
-        [Argument(MoveFileActionInstanceArgs.SourceFilePath, false)] public string SourceFilePath { get; set; }  
-
+        [Argument(CopyFilesActionArgs.DestinationDirectory, true)] public string DestinationDirectory { get; set; }
+        [Argument(CopyFilesActionArgs.SourceFilePath, false)] public string SourceFilePath { get; set; }
         public ActionResult Execute(ArgumentCollection arguments)
         {
             try
@@ -57,25 +47,12 @@ namespace Routindo.Plugins.Files.Components.Actions.MoveFiles
                 }
 
                 // Files must exist
-                if (filePaths.Any(f=> !File.Exists(f)))
-                    throw new FileNotFoundException("File not found", filePaths.First(e=> !File.Exists(e)));
+                if (filePaths.Any(f => !File.Exists(f)))
+                    throw new FileNotFoundException("File not found", filePaths.First(e => !File.Exists(e)));
 
                 foreach (var sourcePath in filePaths)
                 {
                     var fileName = Path.GetFileName(sourcePath);
-                    if (!string.IsNullOrWhiteSpace(DestinationFileName)) fileName = DestinationFileName;
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(DestinationExtension))
-                        {
-                            fileName = Path.ChangeExtension(fileName, DestinationExtension);
-                        }
-
-                        if (!string.IsNullOrEmpty(DestinationPrefix))
-                        {
-                            fileName = DestinationPrefix + fileName;
-                        }
-                    }
 
                     var destinationPath = Path.Combine(DestinationDirectory, fileName);
 
@@ -83,10 +60,10 @@ namespace Routindo.Plugins.Files.Components.Actions.MoveFiles
                     if (File.Exists(destinationPath))
                         throw new Exception($"({destinationPath}) File already exist");
 
-                    File.Move(sourcePath, destinationPath);
-                    LoggingService.Info($"File ({sourcePath}) moved successfully to path ({destinationPath})");
+                    File.Copy(sourcePath, destinationPath);
+                    LoggingService.Info($"File ({sourcePath}) copied successfully to path ({destinationPath})");
                 }
-                
+
                 return ActionResult.Succeeded();
             }
             catch (Exception exception)
@@ -99,6 +76,4 @@ namespace Routindo.Plugins.Files.Components.Actions.MoveFiles
             }
         }
     }
-
-    
 }

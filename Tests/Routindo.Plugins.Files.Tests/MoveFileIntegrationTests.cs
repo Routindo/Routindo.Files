@@ -3,7 +3,7 @@ using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Routindo.Contract;
 using Routindo.Contract.Arguments;
-using Routindo.Plugins.Files.Components.Actions.MoveFiles;
+using Routindo.Plugins.Files.Components.Actions.Move;
 
 namespace Routindo.Plugins.Files.Tests
 {

@@ -1,4 +1,4 @@
-﻿namespace Routindo.Plugins.Files.Components.Actions.MoveFiles
+﻿namespace Routindo.Plugins.Files.Components.Actions.Move
 {
     public static class MoveFileActionExecutionArgs
     {

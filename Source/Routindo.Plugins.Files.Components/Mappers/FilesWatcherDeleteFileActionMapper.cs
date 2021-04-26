@@ -3,7 +3,7 @@ using Routindo.Contract;
 using Routindo.Contract.Arguments;
 using Routindo.Contract.Attributes;
 using Routindo.Contract.Services;
-using Routindo.Plugins.Files.Components.Actions.DeleteFiles;
+using Routindo.Plugins.Files.Components.Actions.Delete;
 using Routindo.Plugins.Files.Components.Watchers;
 
 namespace Routindo.Plugins.Files.Components.Mappers
