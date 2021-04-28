@@ -60,36 +60,24 @@ namespace Routindo.Plugins.Files.Components
             {
                 selectedFiles = selectedFiles
                     .Where(f => f.CreationTime < DateTime.Now.AddMilliseconds(-Convert.ToDouble(CreatedBefore.Value))).ToList();
-                //selectedFiles = selectedFiles.Where(f =>
-                //        Convert.ToUInt64(DateTime.Now.Subtract(f.CreationTime).TotalMilliseconds) > CreatedBefore.Value)
-                //    .ToList();
             }
 
             if (CreatedAfter.HasValue)
             {
                 selectedFiles = selectedFiles
                     .Where(f => f.CreationTime > DateTime.Now.AddMilliseconds(-Convert.ToDouble(CreatedAfter.Value))).ToList();
-                //selectedFiles = selectedFiles.Where(f =>
-                //        Convert.ToUInt64(DateTime.Now.Subtract(f.CreationTime).TotalMilliseconds) < CreatedAfter.Value)
-                //    .ToList();
             }
 
             if (EditedBefore.HasValue)
             {
                 selectedFiles = selectedFiles
                     .Where(f => f.CreationTime < DateTime.Now.AddMilliseconds(-Convert.ToDouble(EditedBefore.Value))).ToList();
-                //selectedFiles = selectedFiles.Where(f =>
-                //        Convert.ToUInt64(DateTime.Now.Subtract(f.LastWriteTime).TotalMilliseconds) > EditedBefore.Value)
-                //    .ToList();
             }
 
             if (EditedAfter.HasValue)
             {
                 selectedFiles = selectedFiles
                     .Where(f => f.CreationTime > DateTime.Now.AddMilliseconds(-Convert.ToDouble(EditedAfter.Value))).ToList();
-                //selectedFiles = selectedFiles.Where(f =>
-                //        Convert.ToUInt64(DateTime.Now.Subtract(f.LastWriteTime).TotalMilliseconds) < EditedAfter.Value)
-                //    .ToList();
             }
 
             return selectedFiles;
