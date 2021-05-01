@@ -11,8 +11,8 @@ using Routindo.Plugins.Files.Components.Actions.Move;
 
 namespace Routindo.Plugins.Files.Components.Actions.Copy
 {
-    [PluginItemInfo(ComponentUniqueId, "File Copier",
-        "Copy a specific file to a specific directory")]
+    [PluginItemInfo(ComponentUniqueId, name:nameof(CopyFilesAction),
+        "Copy one or more files to a specific directory", Category = "Files", FriendlyName = "Copy Files")]
     [ExecutionArgumentsClass(typeof(CopyFilesActionExecutionArgs))]
     public class CopyFilesAction: IAction
     {

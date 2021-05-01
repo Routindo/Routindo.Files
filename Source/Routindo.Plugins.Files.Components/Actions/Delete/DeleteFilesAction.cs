@@ -9,7 +9,8 @@ using Routindo.Contract.Services;
 
 namespace Routindo.Plugins.Files.Components.Actions.Delete
 {
-    [PluginItemInfo("6103E4DD-4D75-4C86-AD61-2F02E802D15E", "Files Deleter", "Delete specific files")]
+    [PluginItemInfo("6103E4DD-4D75-4C86-AD61-2F02E802D15E", nameof(DeleteFilesAction), 
+        "Delete one or more files using their paths returned by the Watcher", Category = "Files", FriendlyName = "Delete Files")]
     [ExecutionArgumentsClass(typeof(DeleteFilesActionExecutionArgs))]
     public class DeleteFilesAction :
         IAction

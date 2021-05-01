@@ -10,8 +10,8 @@ using Routindo.Contract.Services;
 
 namespace Routindo.Plugins.Files.Components.Actions.Move
 {
-    [PluginItemInfo(ComponentUniqueId, "File Mover",
-        "Move a specific file to a specific directory")]
+    [PluginItemInfo(ComponentUniqueId, nameof(MoveFileAction),
+        "Move one or more files from one location to a specific directory", Category = "Files", FriendlyName = "Move Files")]
     [ExecutionArgumentsClass(typeof(MoveFileActionExecutionArgs))]
     public class MoveFileAction : IAction
     {

@@ -8,8 +8,8 @@ using Routindo.Plugins.Files.Components.Watchers;
 
 namespace Routindo.Plugins.Files.Components.Mappers
 {
-    [PluginItemInfo("F587A697-4F28-4A44-BCB6-9519FE31028E", "Deleted Watched Files Args Mapper",
-        "Map arguments of " + nameof(FilesWatcher) + "to arguments of " + nameof(DeleteFilesAction))]
+    [PluginItemInfo("F587A697-4F28-4A44-BCB6-9519FE31028E", nameof(FilesWatcher),
+        "Map arguments of " + nameof(FilesWatcher) + "to arguments of " + nameof(DeleteFilesAction), Category = "Files", FriendlyName = "Files Watch / Actions Mapper")]
     public class FilesWatcherDeleteFileActionMapper : IArgumentsMapper
     {
         public string Id { get; set; }

@@ -10,8 +10,8 @@ using Routindo.Contract.Services;
 
 namespace Routindo.Plugins.Files.Components.Actions.Rename
 {
-    [PluginItemInfo(ComponentUniqueId, "Rename File",
-        "Rename a an existing file")]
+    [PluginItemInfo(ComponentUniqueId, nameof(RenameFileAction),
+        "Rename a an existing file to a new name, or simply append a prefix or change the current extension", Category = "Files", FriendlyName = "Rename File")]
     [ExecutionArgumentsClass(typeof(RenameFileActionExecutionArgs))]
     [ResultArgumentsClass(typeof(RenameFileActionResultArgs))]
     public class RenameFileAction: IAction

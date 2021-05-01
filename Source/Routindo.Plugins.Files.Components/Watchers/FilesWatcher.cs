@@ -9,8 +9,8 @@ using Routindo.Contract.Watchers;
 namespace Routindo.Plugins.Files.Components.Watchers
 {
     [ResultArgumentsClass(typeof(FilesWatcherResultArguments))]
-    [PluginItemInfo(ComponentUniqueId, "Files Watcher",
-        "Watcher directory and reports new created files with a specific pattern.")]
+    [PluginItemInfo(ComponentUniqueId, nameof(FilesWatcher),
+        "Watcher directory and reports new created files with a specific pattern.", Category = "Files", FriendlyName = "Watch Directory")]
     public class FilesWatcher : FilesSelector, IWatcher
     {
         public const string ComponentUniqueId = "DEF4D63F-B9B0-4525-BA94-663491DCE04A";

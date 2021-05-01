@@ -8,7 +8,7 @@ using Routindo.Contract.Services;
 namespace Routindo.Plugins.Files.Components.Actions.BulkDelete
 {
     [PluginItemInfo(ComponentUniqueId, nameof(DeleteFilesByPatternFromDirectory),
-        "Delete files using a specific pattern from a specific directory")]
+        "Delete files using a specific pattern from a specific directory", Category = "Files", FriendlyName = "Bulk Delete Files")]
     public class DeleteFilesByPatternFromDirectory : FilesSelector, IAction
     {
         public const string ComponentUniqueId = "B2FF2D73-C1F7-45B2-B39D-D392837A4FA2";
