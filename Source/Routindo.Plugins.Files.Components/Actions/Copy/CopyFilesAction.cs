@@ -14,6 +14,7 @@ namespace Routindo.Plugins.Files.Components.Actions.Copy
     [PluginItemInfo(ComponentUniqueId, name:nameof(CopyFilesAction),
         "Copy one or more files to a specific directory", Category = "Files", FriendlyName = "Copy Files")]
     [ExecutionArgumentsClass(typeof(CopyFilesActionExecutionArgs))]
+    [ResultArgumentsClass(typeof(CopyFilesActionResultsArgs))]
     public class CopyFilesAction: IAction
     {
         public const string ComponentUniqueId = "22A3DE70-0FF5-480A-9741-BF88215D0179";
@@ -24,10 +25,10 @@ namespace Routindo.Plugins.Files.Components.Actions.Copy
         [Argument(CopyFilesActionArgs.SourceFilePath, false)] public string SourceFilePath { get; set; }
         public ActionResult Execute(ArgumentCollection arguments)
         {
+            List<string> filePaths = new List<string>();
+            List<string> destinationPaths = new List<string>();
             try
             {
-                List<string> filePaths = new List<string>();
-
                 if (arguments.HasArgument(MoveFileActionExecutionArgs.SourceFilePaths))
                 {
                     if (arguments[MoveFileActionExecutionArgs.SourceFilePaths] is List<string> castedFilePaths)
@@ -49,7 +50,7 @@ namespace Routindo.Plugins.Files.Components.Actions.Copy
                 // Files must exist
                 if (filePaths.Any(f => !File.Exists(f)))
                     throw new FileNotFoundException("File not found", filePaths.First(e => !File.Exists(e)));
-
+                
                 foreach (var sourcePath in filePaths)
                 {
                     var fileName = Path.GetFileName(sourcePath);
@@ -61,18 +62,22 @@ namespace Routindo.Plugins.Files.Components.Actions.Copy
                         throw new Exception($"({destinationPath}) File already exist");
 
                     File.Copy(sourcePath, destinationPath);
+                    destinationPaths.Add(destinationPath);
                     LoggingService.Info($"File ({sourcePath}) copied successfully to path ({destinationPath})");
                 }
 
-                return ActionResult.Succeeded();
+                return ActionResult.Succeeded().WithAdditionInformation(ArgumentCollection.New()
+                    .WithArgument(CopyFilesActionResultsArgs.SourceFilePaths, filePaths)
+                    .WithArgument(CopyFilesActionResultsArgs.CopiedFilesPaths, destinationPaths)
+                );
             }
             catch (Exception exception)
             {
                 LoggingService.Error(exception);
-                return new ActionResult(false)
-                {
-                    AttachedException = exception
-                };
+                return ActionResult.Failed(exception).WithAdditionInformation(ArgumentCollection.New()
+                    .WithArgument(CopyFilesActionResultsArgs.SourceFilePaths, filePaths)
+                    .WithArgument(CopyFilesActionResultsArgs.CopiedFilesPaths, destinationPaths)
+                );
             }
         }
     }
