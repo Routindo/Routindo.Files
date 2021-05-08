@@ -13,6 +13,7 @@ namespace Routindo.Plugins.Files.Components.Actions.Move
     [PluginItemInfo(ComponentUniqueId, nameof(MoveFileAction),
         "Move one or more files from one location to a specific directory", Category = "Files", FriendlyName = "Move Files")]
     [ExecutionArgumentsClass(typeof(MoveFileActionExecutionArgs))]
+    [ResultArgumentsClass(typeof(MoveFileActionResultsArgs))]
     public class MoveFileAction : IAction
     {
         public const string ComponentUniqueId = "02170633-B58A-4429-AEC1-B813DAA87BF5";
@@ -33,10 +34,11 @@ namespace Routindo.Plugins.Files.Components.Actions.Move
 
         public ActionResult Execute(ArgumentCollection arguments)
         {
+            List<string> filePaths = new List<string>();
+            List<string> movedFilesPaths = new List<string>();
+            List<string> failedFilesPaths = new List<string>();
             try
             {
-                List<string> filePaths = new List<string>();
-
                 if (arguments.HasArgument(MoveFileActionExecutionArgs.SourceFilePaths))
                 {
                     if (arguments[MoveFileActionExecutionArgs.SourceFilePaths] is List<string> castedFilePaths)
@@ -61,43 +63,57 @@ namespace Routindo.Plugins.Files.Components.Actions.Move
 
                 foreach (var sourcePath in filePaths)
                 {
-                    var fileName = Path.GetFileName(sourcePath);
-                    if (!string.IsNullOrWhiteSpace(DestinationFileName)) fileName = DestinationFileName;
-                    else
+                    try
                     {
-                        if (!string.IsNullOrEmpty(DestinationExtension))
+                        var fileName = Path.GetFileName(sourcePath);
+                        if (!string.IsNullOrWhiteSpace(DestinationFileName)) fileName = DestinationFileName;
+                        else
                         {
-                            fileName = Path.ChangeExtension(fileName, DestinationExtension);
+                            if (!string.IsNullOrEmpty(DestinationExtension))
+                            {
+                                fileName = Path.ChangeExtension(fileName, DestinationExtension);
+                            }
+
+                            if (!string.IsNullOrEmpty(DestinationPrefix))
+                            {
+                                fileName = DestinationPrefix + fileName;
+                            }
                         }
 
-                        if (!string.IsNullOrEmpty(DestinationPrefix))
+                        var destinationPath = Path.Combine(DestinationDirectory, fileName);
+
+                        // File must not exist
+                        if (File.Exists(destinationPath))
                         {
-                            fileName = DestinationPrefix + fileName;
+                            throw new Exception($"({destinationPath}) File already exist");
                         }
+
+                        File.Move(sourcePath, destinationPath);
+                        LoggingService.Info($"File ({sourcePath}) moved successfully to path ({destinationPath})");
+                        movedFilesPaths.Add(destinationPath);
                     }
-
-                    var destinationPath = Path.Combine(DestinationDirectory, fileName);
-
-                    // File must not exist
-                    if (File.Exists(destinationPath))
-                        throw new Exception($"({destinationPath}) File already exist");
-
-                    File.Move(sourcePath, destinationPath);
-                    LoggingService.Info($"File ({sourcePath}) moved successfully to path ({destinationPath})");
+                    catch (Exception exception)
+                    {
+                        LoggingService.Error(exception);
+                        failedFilesPaths.Add(sourcePath);
+                    }
                 }
-                
-                return ActionResult.Succeeded();
+
+                return ActionResult.Succeeded().WithAdditionInformation(ArgumentCollection.New()
+                    .WithArgument(MoveFileActionResultsArgs.SourceFilesPaths, filePaths)
+                    .WithArgument(MoveFileActionResultsArgs.MovedFilesPaths, movedFilesPaths)
+                    .WithArgument(MoveFileActionResultsArgs.FailedFilesPaths, failedFilesPaths)
+                );
             }
             catch (Exception exception)
             {
                 LoggingService.Error(exception);
-                return new ActionResult(false)
-                {
-                    AttachedException = exception
-                };
+                return ActionResult.Failed(exception).WithAdditionInformation(ArgumentCollection.New()
+                    .WithArgument(MoveFileActionResultsArgs.SourceFilesPaths, filePaths)
+                    .WithArgument(MoveFileActionResultsArgs.MovedFilesPaths, movedFilesPaths)
+                    .WithArgument(MoveFileActionResultsArgs.FailedFilesPaths, failedFilesPaths)
+                );
             }
         }
     }
-
-    
 }

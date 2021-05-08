@@ -12,6 +12,7 @@ namespace Routindo.Plugins.Files.Components.Actions.Delete
     [PluginItemInfo("6103E4DD-4D75-4C86-AD61-2F02E802D15E", nameof(DeleteFilesAction), 
         "Delete one or more files using their paths returned by the Watcher", Category = "Files", FriendlyName = "Delete Files")]
     [ExecutionArgumentsClass(typeof(DeleteFilesActionExecutionArgs))]
+    [ResultArgumentsClass(typeof(DeleteFilesActionResultsArgs))]
     public class DeleteFilesAction :
         IAction
     {
@@ -21,6 +22,7 @@ namespace Routindo.Plugins.Files.Components.Actions.Delete
 
         public ActionResult Execute(ArgumentCollection arguments)
         {
+            List<string> deletedFiles = new List<string>();
             try
             {
                 // Must provide arguments
@@ -42,17 +44,19 @@ namespace Routindo.Plugins.Files.Components.Actions.Delete
 
                     File.Delete(filePath);
                     LoggingService.Info($"File ({filePath}) deleted successfully");
+                    deletedFiles.Add(filePath);
                 }
 
-                return new ActionResult(true);
+                return ActionResult.Succeeded().WithAdditionInformation(ArgumentCollection.New()
+                    .WithArgument(DeleteFilesActionResultsArgs.DeletedFiles, deletedFiles)
+                );
             }
             catch (Exception exception)
             {
                 LoggingService.Error(exception);
-                return new ActionResult(false)
-                {
-                    AttachedException = exception
-                };
+                return ActionResult.Failed(exception).WithAdditionInformation(ArgumentCollection.New()
+                    .WithArgument(DeleteFilesActionResultsArgs.DeletedFiles, deletedFiles)
+                );
             }
         }
 
