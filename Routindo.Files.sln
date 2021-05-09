@@ -7,8 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
 		NuGet.config = NuGet.config
-		Scripts\publish.ps1 = Scripts\publish.ps1
-		Scripts\update-libs.ps1 = Scripts\update-libs.ps1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{9C3E6753-08D9-4925-ADF3-1002538901D1}"
@@ -24,6 +22,14 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Routindo.Plugins.Files.Tests", "Tests\Routindo.Plugins.Files.Tests\Routindo.Plugins.Files.Tests.csproj", "{B996B706-F3DB-4B57-8C83-A922AFEA1219}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Routindo.Plugins.Files.Preview", "Source\Routindo.Plugins.Files.Preview\Routindo.Plugins.Files.Preview.csproj", "{7DF9C00D-2BF7-412D-BBCE-ADB46A9154BF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "deployment", "deployment", "{1C0C9BC7-92B8-4ECC-977D-B095496B7279}"
+	ProjectSection(SolutionItems) = preProject
+		deployment\config.xml = deployment\config.xml
+		deployment\deploy.ps1 = deployment\deploy.ps1
+		Scripts\publish.ps1 = Scripts\publish.ps1
+		Scripts\update-libs.ps1 = Scripts\update-libs.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +67,7 @@ Global
 		{F42D5A3F-952F-4282-A17B-98F6A6816790} = {9C3E6753-08D9-4925-ADF3-1002538901D1}
 		{B996B706-F3DB-4B57-8C83-A922AFEA1219} = {5ED9E73D-75B2-4C20-B967-A39E420DE546}
 		{7DF9C00D-2BF7-412D-BBCE-ADB46A9154BF} = {9C3E6753-08D9-4925-ADF3-1002538901D1}
+		{1C0C9BC7-92B8-4ECC-977D-B095496B7279} = {919C0220-5AD4-403A-8A71-8F58A659FEDD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {CD14A950-D9CE-47B9-92E2-AA0073B05F80}
